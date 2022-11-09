@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "Castled"
-  spec.version      =  ENV['LIB_VERSION'] || '1.0.0' #fallback to major version
+  spec.version      =  ENV['LIB_VERSION'] || '1.0.1' #fallback to major version
   spec.summary      = "IOS sdk for Castled Notifications"
 
   spec.description  = <<-DESC
