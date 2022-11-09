@@ -1,19 +1,23 @@
+name: Publish IOS sdk on Cocoapods
+
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: macOS-latest
+
     steps:
-      - uses: actions/checkout@master
-      - name: Set XCode Version
-        run: sudo xcode-select -s /Applications/Xcode_11.app
-      - name: Install Dependencies
+      - uses: actions/checkout@v1
+
+      - name: Install Cocoapods
+        run: gem install cocoapods
+
+      - name: Deploy to Cocoapods
         run: |
-          cd Castled
-          pod install --repo-update
-        shell: bash
-      - uses: ty0x2333/cocoapods-action@master
-        with:
-          additional_build_params: -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.0'
-          additional_lint_params: --private
+          set -eo pipefail
+          export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+          pod lib lint --allow-warnings
+          pod trunk push --allow-warnings
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
