@@ -11,7 +11,7 @@ public class CastledUserDefaults {
 
     
     
-    class func getString(_ key: String, userDefaultsOnly: Bool = false) -> String? {
+   public class func getString(_ key: String, userDefaultsOnly: Bool = false) -> String? {
         
         // Fetch value from UserDefaults
         if let stringValue = UserDefaults.standard.string(forKey: key){

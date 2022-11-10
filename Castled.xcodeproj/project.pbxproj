@@ -24,7 +24,33 @@
 		0AB5C5A0291C27840027C36B /* CastledAPIs+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C596291C27830027C36B /* CastledAPIs+Extensions.swift */; };
 		0AB5C5A1291C27840027C36B /* CastledNotifications+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C597291C27830027C36B /* CastledNotifications+Extensions.swift */; };
 		0AB5C5A2291C27840027C36B /* Castled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C598291C27830027C36B /* Castled.swift */; };
+		C9263365291CD3F800ACE169 /* Castled.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB5C550291C222C0027C36B /* Castled.framework */; };
+		C9263366291CD3F800ACE169 /* Castled.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB5C550291C222C0027C36B /* Castled.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9263367291CD3F800ACE169 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AB5C547291C222C0027C36B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0AB5C54F291C222C0027C36B;
+			remoteInfo = Castled;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C9263369291CD3F800ACE169 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C9263366291CD3F800ACE169 /* Castled.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0AB5C550291C222C0027C36B /* Castled.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Castled.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9263365291CD3F800ACE169 /* Castled.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +100,7 @@
 				0AB5C552291C222C0027C36B /* Castled */,
 				0AB5C577291C25370027C36B /* CastledPusherExample */,
 				0AB5C551291C222C0027C36B /* Products */,
+				C9263364291CD3F800ACE169 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +177,13 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		C9263364291CD3F800ACE169 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -188,10 +223,12 @@
 				0AB5C572291C25370027C36B /* Sources */,
 				0AB5C573291C25370027C36B /* Frameworks */,
 				0AB5C574291C25370027C36B /* Resources */,
+				C9263369291CD3F800ACE169 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C9263368291CD3F800ACE169 /* PBXTargetDependency */,
 			);
 			name = CastledPusherExample;
 			productName = CastledPusherExample;
@@ -284,6 +321,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C9263368291CD3F800ACE169 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0AB5C54F291C222C0027C36B /* Castled */;
+			targetProxy = C9263367291CD3F800ACE169 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0AB5C57E291C25370027C36B /* Main.storyboard */ = {

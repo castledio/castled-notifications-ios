@@ -7,12 +7,12 @@
 
 import Foundation
 
-class CastledResponse<T: Any>: NSObject {
+public class CastledResponse<T: Any>: NSObject {
     
-    var success   : Bool
     let statusCode  : Int
-    var errorMessage     : String
-    var result      : T? = nil
+    public var success   : Bool
+    public var errorMessage     : String
+    public var result      : T? = nil
     
     init(error: String, statusCode: Int) {
         self.success = false

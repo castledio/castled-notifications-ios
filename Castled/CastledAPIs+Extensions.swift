@@ -11,7 +11,7 @@ extension Castled{
     /**
      Funtion which alllows to register the APNs token with Castled.
      */
-    func registerDeviceTokenWith<T: Any>(apnsToken token : String, completion: @escaping (_ response: CastledResponse<T>) -> Void){
+    public func registerDeviceTokenWith<T: Any>(apnsToken token : String, completion: @escaping (_ response: CastledResponse<T>) -> Void){
         api_RegisterDeviceTokenWith(apnsToken: token) {(response: CastledResponse<T>) in
             
             guard let result = response.result as? [String : Any] else{
@@ -29,7 +29,7 @@ extension Castled{
     /**
      Funtion which alllows to register the User with Castled.
      */
-    func registerUser<T: Any>(userId uid : String, apnsToken token : String? = CastledUserDefaults.getString(CastledConstants.kCastledAPNsTokenKey) ?? "",  completion: @escaping (_ response: CastledResponse<T>) -> Void){
+    public func registerUser<T: Any>(userId uid : String, apnsToken token : String? = CastledUserDefaults.getString(CastledConstants.kCastledAPNsTokenKey) ?? "",  completion: @escaping (_ response: CastledResponse<T>) -> Void){
         api_RegisterUser(userId: uid, apnsToken: token!) { (response: CastledResponse<T>) in
             if ( CastledUserDefaults.getString(CastledConstants.kCastledAPNsTokenKey) == nil){
                 CastledUserDefaults.setString(CastledConstants.kCastledAPNsTokenKey, token)
@@ -49,7 +49,7 @@ extension Castled{
     /**
      Funtion which alllows to register Notifification events like OPENED,ACKNOWLEDGED etc.. with Castled.
      */
-    func registerEvents<T: Any>(eventType et : String, notificationIds notIds : String,  completion: @escaping (_ response: CastledResponse<T>) -> Void){
+    public func registerEvents<T: Any>(eventType et : String, notificationIds notIds : String,  completion: @escaping (_ response: CastledResponse<T>) -> Void){
         
         api_RegisterEvents(eventType: et, notificationIds: notIds) { (response: CastledResponse<T>) in
             

@@ -13,12 +13,12 @@ public class CastledConstants {
     static let kCastledSwzzlingDisableKey          = "CastledSwizzlingDisabled"
    
     //Userdefault keys
-    static var kCastledAPNsTokenKey                = "_castledApnsToken_"
     static var kCastledIsTokenRegisteredKey        = "_castledIsTokenRegistered_"
     static var kCastledAnonymousIdKey              = "_castledAnonymousId_"
     static var kCastledUserIdKey                   = "_castledUserId_"
     static var kCastledNotificationIdsKey          = "_castledNotificationIds_"
     static let kCastledIdSeperator                 = "||"
+    public static var kCastledAPNsTokenKey                = "_castledApnsToken_"
 
     
     //Constants used in the api
