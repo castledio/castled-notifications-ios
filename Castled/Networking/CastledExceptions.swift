@@ -14,7 +14,8 @@ enum CastledExceptionMessages: String {
     case iOS13Less          = "Sorry for the inconvenience. Currently we are supporting iOS 13 and above."
     case paramsMisMatch     = "Unable to create the request. Please check the params or url."
     case userNotRegistered  = "Please register the user with Castled using the api 'registerUser:'."
-    
+    case emptyEventsArray   = "Notificaion Id array cannot be empty"
+
 }
 
 enum CastledException: Error {

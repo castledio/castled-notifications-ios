@@ -17,16 +17,16 @@ public class CastledConstants {
     static var kCastledAnonymousIdKey              = "_castledAnonymousId_"
     static var kCastledUserIdKey                   = "_castledUserId_"
     static var kCastledNotificationIdsKey          = "_castledNotificationIds_"
-    static let kCastledIdSeperator                 = "||"
-    public static var kCastledAPNsTokenKey                = "_castledApnsToken_"
+    public static let kCastledIdSeperator                 = "||"
+    public static let kCastledAPNsTokenKey                = "_castledApnsToken_"
 
     
     //Constants used in the api
-    static var kCastledAnonymousIdResponseKey      = "anonId"
+    static let kCastledAnonymousIdResponseKey      = "anonId"
     static let kCastledPushNotificationIdKey       = "castled_notification_id"
-    static let kCastledPushStatusAcknowledgedKey   = "ACKNOWLEDGED"
-    static let kCastledPushStatusCancelledKey      = "CANCELLED"
-    static let kCastledPushStatusOpenedKey         = "OPENED"
+    public static let kCastledPushStatusAcknowledgedKey   = "ACKNOWLEDGED"
+    public static let kCastledPushStatusCancelledKey      = "CANCELLED"
+    public static let kCastledPushStatusOpenedKey         = "OPENED"
 
 
 }

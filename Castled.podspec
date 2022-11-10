@@ -16,6 +16,11 @@ Pod::Spec.new do |spec|
   spec.swift_version = "5.7"
 
   spec.source        = { :git => "https://github.com/castledio/castled-notifications-ios.git", :tag => "#{spec.version}" }
-  spec.source_files  = "Castled/**/*.{h,m,swift}"
+  # spec.source_files  = "Castled/**/*.{h,m,swift}"
+  spec.source_files = 'Castled/**/*.{h,m,swift}'
+  spec.resource_bundles = {
+    spec.name => ['Castled/**/*.{h,m,swift,xcassets,json,storyboard,xib,xcdatamodeld}']
+  }
+
 
 end

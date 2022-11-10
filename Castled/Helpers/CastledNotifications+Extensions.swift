@@ -101,18 +101,20 @@ extension Castled{
                 }
                 let notifactionKey = CastledConstants.kCastledNotificationIdsKey + event
                 var notificationIds = CastledUserDefaults.getString(notifactionKey) ?? ""
-                let curNotiValue = "\(castledId)\(CastledConstants.kCastledIdSeperator)"
-            
+                let curNotiValue = "\(CastledConstants.kCastledIdSeperator)\(castledId)\(CastledConstants.kCastledIdSeperator)"
+                
 
                 if (!notificationIds.contains(curNotiValue))
                 {
-                    notificationIds += "\(castledId)\(CastledConstants.kCastledIdSeperator)"
+                    notificationIds += curNotiValue
                     CastledUserDefaults.setString(notifactionKey, notificationIds)
 
                 }
                 if (notificationIds.count > 0){
-                    
-                    registerEvents(eventType: event, notificationIds: notificationIds) { (_ response: CastledResponse<[String : String]>) in
+                    var notiAr =  notificationIds.components(separatedBy: CastledConstants.kCastledIdSeperator)
+                    notiAr = notiAr.filter({ $0 != ""})
+
+                    registerEvents(eventType: event, notificationIds: notiAr) { (_ response: CastledResponse<[String : String]>) in
                         
                     }
 
@@ -139,10 +141,10 @@ extension Castled{
                         
                         let content = notification.request.content
                         if let castledId = content.userInfo[CastledConstants.kCastledPushNotificationIdKey] as? String{
-                            let curNotiValue = "\(castledId)\(CastledConstants.kCastledIdSeperator)"
+                            let curNotiValue = "\(CastledConstants.kCastledIdSeperator)\(castledId)\(CastledConstants.kCastledIdSeperator)"
                             if (!notificationIds.contains(curNotiValue))
                             {
-                                notificationIds += "\(castledId)\(CastledConstants.kCastledIdSeperator)"
+                                notificationIds += curNotiValue
 
                             }
                             
@@ -152,7 +154,10 @@ extension Castled{
                     if(notificationIds.count > 0){
                         
                         CastledUserDefaults.setString(notifactionKey, notificationIds)
-                        registerEvents(eventType: CastledConstants.kCastledPushStatusAcknowledgedKey, notificationIds: notificationIds) { (_ response: CastledResponse<[String : String]>) in
+                        var notiAr =  notificationIds.components(separatedBy: CastledConstants.kCastledIdSeperator)
+                        notiAr = notiAr.filter({ $0 != ""})
+
+                        registerEvents(eventType: CastledConstants.kCastledPushStatusAcknowledgedKey, notificationIds: notiAr) { (_ response: CastledResponse<[String : String]>) in
                             
                         }
                     }

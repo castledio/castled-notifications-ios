@@ -34,6 +34,9 @@ class ViewController: UIViewController {
             })
     
     }
+   func registerEvents(){
+        
+    }
     
 }
 

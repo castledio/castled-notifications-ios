@@ -49,18 +49,23 @@ extension Castled{
     /**
      Funtion which alllows to register Notifification events like OPENED,ACKNOWLEDGED etc.. with Castled.
      */
-    public func registerEvents<T: Any>(eventType et : String, notificationIds notIds : String,  completion: @escaping (_ response: CastledResponse<T>) -> Void){
-        
+    public func registerEvents<T: Any>(eventType et : String, notificationIds notIds : [String],  completion: @escaping (_ response: CastledResponse<T>) -> Void){
         api_RegisterEvents(eventType: et, notificationIds: notIds) { (response: CastledResponse<T>) in
             
             
             if response.success{
+
                 let notifactionKey = CastledConstants.kCastledNotificationIdsKey + et
-                var notificationIds = CastledUserDefaults.getString(notifactionKey) ?? ""
-                if (notificationIds.contains(notIds)){
-                    notificationIds =  notificationIds.replacingOccurrences(of: notIds, with: "")
-                    CastledUserDefaults.setString(notifactionKey, notificationIds)
+                var savedNotiIds = CastledUserDefaults.getString(notifactionKey) ?? ""
+                for singleId in notIds{
+                    if (savedNotiIds.contains("\(CastledConstants.kCastledIdSeperator)\(singleId)\(CastledConstants.kCastledIdSeperator)")){
+                        savedNotiIds =  savedNotiIds.replacingOccurrences(of: "\(CastledConstants.kCastledIdSeperator)\(singleId)\(CastledConstants.kCastledIdSeperator)", with: "")
+                    }
+
                 }
+                CastledUserDefaults.setString(notifactionKey, savedNotiIds)
+
+              
                 
             }
             completion(response)
@@ -139,7 +144,7 @@ extension Castled{
         
     }
     
-    fileprivate func api_RegisterEvents<T: Any>(eventType et : String, notificationIds notIds : String,  completion: @escaping (_ response: CastledResponse<T>) -> Void){
+    fileprivate func api_RegisterEvents<T: Any>(eventType et : String, notificationIds notIds : [String],  completion: @escaping (_ response: CastledResponse<T>) -> Void){
         
         
         Task{
@@ -154,9 +159,13 @@ extension Castled{
                 completion(CastledResponse(error: CastledExceptionMessages.userNotRegistered.rawValue, statusCode: 999))
                 return
             }
-            
+            if notIds.count == 0 {
+                print("Register Events Error:❌❌❌\(CastledExceptionMessages.emptyEventsArray.rawValue)")
+                completion(CastledResponse(error: CastledExceptionMessages.emptyEventsArray.rawValue, statusCode: 999))
+
+            }
             var request : CastledNetworkRouter
-            var notiAr =  notIds.components(separatedBy: CastledConstants.kCastledIdSeperator)
+            var notiAr =  notIds
             notiAr = notiAr.filter({ $0 != ""})
             request = .registerEvents(userId: userId, notificationIds: notiAr, eventType: et, appInBg: false, createdTs: "\(Int(Date().timeIntervalSince1970))", instanceId: instance_id)
             
