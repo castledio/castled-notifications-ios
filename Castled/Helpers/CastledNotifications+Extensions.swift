@@ -22,7 +22,7 @@ extension Castled : UNUserNotificationCenterDelegate {
         }
         if (CastledUserDefaults.getBoolean(CastledConstants.kCastledIsTokenRegisteredKey) == false)
         {
-            registerDeviceTokenWith(apnsToken: deviceToken)  { (response: CastledResponse<[String : Any]>) in
+            Castled.registerDeviceTokenWith(apnsToken: deviceToken)  { (response: CastledResponse<[String : Any]>) in
                 
             }
         }
@@ -48,8 +48,10 @@ extension Castled : UNUserNotificationCenterDelegate {
         
         
         Castled.sharedInstance?.delegate.userNotificationCenter(center, willPresent: notification, withCompletionHandler: completionHandler)
-        processCastledPushEvents(userInfo: notification.request.content.userInfo)
+        processCastledPushEvents(userInfo: notification.request.content.userInfo, isForeGround: true)
         
+        Castled.sharedInstance?.registerNotificationCategories(userInfo: notification.request.content.userInfo)
+        print("\(notification.request.content.userInfo)")
     }
     
     
@@ -62,19 +64,33 @@ extension Castled : UNUserNotificationCenterDelegate {
         
         // Returning the same options we've requested
         let userInfo = response.notification.request.content.userInfo
-        if response.actionIdentifier == UNNotificationDefaultActionIdentifier
-        {
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier{
             processCastledPushEvents(userInfo: userInfo,isOpened: true)
         }
-        else if response.actionIdentifier == UNNotificationDismissActionIdentifier
-        {
+        else if response.actionIdentifier == UNNotificationDismissActionIdentifier{
             processCastledPushEvents(userInfo: userInfo,isDismissed: true)
+        }else if response.actionIdentifier == CastledConstants.kCastledPushActionTypeDeeplink {
+            if let actionTitle = CastledCommonClass.getActionLabelFromDictionary(dict: userInfo, actionType: CastledConstants.kCastledPushActionTypeDeeplink) {
+                processCastledPushEvents(userInfo: userInfo,isAcceptRich: true, actionLabel: actionTitle, actionType: CastledConstants.kCastledPushActionTypeDeeplink)
+                handleNavigateScreenPayload(type: CastledConstants.kCastledPushActionTypeDeeplink, userInfo: userInfo)
+            }
+        } else if response.actionIdentifier == CastledConstants.kCastledPushActionTypeDiscardNotifications {
             
+            if let actionTitle = CastledCommonClass.getActionLabelFromDictionary(dict: userInfo, actionType: CastledConstants.kCastledPushActionTypeDiscardNotifications) {
+                processCastledPushEvents(userInfo: userInfo,isDiscardedRich: true, actionLabel: actionTitle, actionType: CastledConstants.kCastledPushActionTypeDiscardNotifications)
+            }
+        } else if response.actionIdentifier == CastledConstants.kCastledPushActionTypeNavigate {
+            if let actionTitle = CastledCommonClass.getActionLabelFromDictionary(dict: userInfo, actionType: CastledConstants.kCastledPushActionTypeNavigate) {
+                processCastledPushEvents(userInfo: userInfo,isAcceptRich: true, actionLabel: actionTitle, actionType: CastledConstants.kCastledPushActionTypeNavigate)
+                handleNavigateScreenPayload(type: CastledConstants.kCastledPushActionTypeNavigate, userInfo: userInfo)
+            }
+        } else if response.actionIdentifier == CastledConstants.kCastledPushActionTypeRichLanding {
+            if let actionTitle = CastledCommonClass.getActionLabelFromDictionary(dict: userInfo, actionType: CastledConstants.kCastledPushActionTypeRichLanding) {
+                processCastledPushEvents(userInfo: userInfo,isAcceptRich: true, actionLabel: actionTitle, actionType: CastledConstants.kCastledPushActionTypeRichLanding)
+            }
         }
     }
-    
 }
-
 
 extension Castled{
 
@@ -88,38 +104,56 @@ extension Castled{
         }
     }
     
-   fileprivate func processCastledPushEvents(userInfo : [AnyHashable : Any], isOpened : Bool? = false, isDismissed : Bool? = false){
+    fileprivate func processCastledPushEvents(userInfo : [AnyHashable : Any],isForeGround: Bool? = false , isOpened : Bool? = false, isDismissed : Bool? = false, isDiscardedRich: Bool? = false, isAcceptRich: Bool? = false, actionLabel: String? = "", actionType: String? = "", completion: ((_ success: Bool) -> Void)? = nil ){
         Task{
-            if let castledId = userInfo[CastledConstants.kCastledPushNotificationIdKey] as? String{
-                var event = CastledConstants.kCastledPushStatusAcknowledgedKey
-                
-                if isOpened == true{
-                    event = CastledConstants.kCastledPushStatusOpenedKey
-                }
-                else if isDismissed == true{
-                    event = CastledConstants.kCastledPushStatusCancelledKey
-                }
-                let notifactionKey = CastledConstants.kCastledNotificationIdsKey + event
-                var notificationIds = CastledUserDefaults.getString(notifactionKey) ?? ""
-                let curNotiValue = "\(CastledConstants.kCastledIdSeperator)\(castledId)\(CastledConstants.kCastledIdSeperator)"
-                
+            if let customCasledDict = userInfo[CastledConstants.kCastledPushMainCustomKey] as? NSDictionary{
+                    if let castledId = customCasledDict[CastledConstants.kCastledPushNotificationIdKey] as? String{
+                            var event = CastledConstants.kCastledPushStatusReceivedKey
+                            
+                            if isOpened == true{
+                                event = CastledConstants.kCastledPushStatusClickedKey
+                            }
+                            else if isDismissed == true{
+                                event = CastledConstants.kCastledPushStatusDiscardedKey
+                            }
+                            
+                            if isDiscardedRich == true{
+                                event = CastledConstants.kCastledPushStatusDiscardedKey
+                            }
+                            else if isAcceptRich == true{
+                                event = CastledConstants.kCastledPushStatusClickedKey
+                            }
+                            
+                            if isForeGround == true {
+                                event = CastledConstants.kCastledPushStatusForegroundKey
+                            }
+                            
+                            let notifactionKey = CastledConstants.kCastledNotificationIdsKey + event
+                            var notificationIds = CastledUserDefaults.getString(notifactionKey) ?? ""
+                            let curNotiValue = "\(CastledConstants.kCastledIdSeperator)\(castledId)\(CastledConstants.kCastledIdSeperator)"
+                            
 
-                if (!notificationIds.contains(curNotiValue))
-                {
-                    notificationIds += curNotiValue
-                    CastledUserDefaults.setString(notifactionKey, notificationIds)
+                            if (!notificationIds.contains(curNotiValue))
+                            {
+                                notificationIds += curNotiValue
+                                CastledUserDefaults.setString(notifactionKey, notificationIds)
 
-                }
-                if (notificationIds.count > 0){
-                    var notiAr =  notificationIds.components(separatedBy: CastledConstants.kCastledIdSeperator)
-                    notiAr = notiAr.filter({ $0 != ""})
+                            }
+                            if (notificationIds.count > 0){
+                                var notiAr =  notificationIds.components(separatedBy: CastledConstants.kCastledIdSeperator)
+                                notiAr = notiAr.filter({ $0 != ""})
 
-                    registerEvents(eventType: event, notificationIds: notiAr) { (_ response: CastledResponse<[String : String]>) in
-                        
+                                Castled.registerEvents(eventType: event, actionLabel: actionLabel ?? "", actionType: actionType ?? "",notificationIds: notiAr) { (_ response: CastledResponse<[String : String]>) in
+                                    if let completionT = completion {
+                                        completionT(true)
+                                    }
+                                }
+
+                            }
+
                     }
-
-                }
-
+                    
+                
             }
         }
     }
@@ -133,22 +167,26 @@ extension Castled{
                 
                 center.getDeliveredNotifications { [self] (receivedNotifications) in
                     
-                    let notifactionKey = CastledConstants.kCastledNotificationIdsKey + CastledConstants.kCastledPushStatusAcknowledgedKey
+                    let notifactionKey = CastledConstants.kCastledNotificationIdsKey + CastledConstants.kCastledPushStatusReceivedKey
                     var notificationIds = CastledUserDefaults.getString(notifactionKey) ?? ""
                     
                     
                     for notification in receivedNotifications {
                         
                         let content = notification.request.content
-                        if let castledId = content.userInfo[CastledConstants.kCastledPushNotificationIdKey] as? String{
-                            let curNotiValue = "\(CastledConstants.kCastledIdSeperator)\(castledId)\(CastledConstants.kCastledIdSeperator)"
-                            if (!notificationIds.contains(curNotiValue))
-                            {
-                                notificationIds += curNotiValue
-
+                        
+                        if let customCasledKey = content.userInfo[CastledConstants.kCastledPushMainCustomKey] as? String{
+                            if let customDict = content.userInfo[customCasledKey] as? NSDictionary {
+                                if let castledId = customDict[CastledConstants.kCastledPushNotificationIdKey] as? String{
+                                    let curNotiValue = "\(CastledConstants.kCastledIdSeperator)\(castledId)\(CastledConstants.kCastledIdSeperator)"
+                                    if (!notificationIds.contains(curNotiValue))
+                                    {
+                                        notificationIds += curNotiValue
+                                    }
+                                }
                             }
-                            
                         }
+                        
                         
                     }
                     if(notificationIds.count > 0){
@@ -157,7 +195,7 @@ extension Castled{
                         var notiAr =  notificationIds.components(separatedBy: CastledConstants.kCastledIdSeperator)
                         notiAr = notiAr.filter({ $0 != ""})
 
-                        registerEvents(eventType: CastledConstants.kCastledPushStatusAcknowledgedKey, notificationIds: notiAr) { (_ response: CastledResponse<[String : String]>) in
+                        Castled.registerEvents(eventType: CastledConstants.kCastledPushStatusReceivedKey, notificationIds: notiAr) { (_ response: CastledResponse<[String : String]>) in
                             
                         }
                     }
@@ -169,5 +207,35 @@ extension Castled{
                 }
             }
         }
+    }
+    
+    
+    func handleNavigateScreenPayload(type:String, userInfo: [AnyHashable : Any]) {
+        if type == CastledConstants.kCastledPushActionTypeDeeplink {
+            if let customDict = userInfo[CastledConstants.kCastledPushMainCustomKey] as? NSDictionary {
+                if let categoryJsonString = customDict[CastledConstants.kCastledPushNotificationCategoryActionsKey] as? String {
+                    
+                    if let deserializedDict = CastledCommonClass.convertToDictionary(text: categoryJsonString) {
+                        if let urlForNavigation = deserializedDict[CastledConstants.kCastledPushNotificationURLForNavigation] as? String {
+                            Castled.sharedInstance?.delegate.navigateToScreen(scheme: urlForNavigation, viewControllerName: nil)
+                        }
+                    }
+                    
+                }
+            }
+        } else {
+            if let customDict = userInfo[CastledConstants.kCastledPushMainCustomKey] as? NSDictionary {
+                if let categoryJsonString = customDict[CastledConstants.kCastledPushNotificationCategoryActionsKey] as? String {
+                    
+                    if let deserializedDict = CastledCommonClass.convertToDictionary(text: categoryJsonString) {
+                        if let viewControllerName = deserializedDict[CastledConstants.kCastledPushNotificationURLForNavigation] as? String {
+                            Castled.sharedInstance?.delegate.navigateToScreen(scheme: nil, viewControllerName: viewControllerName)
+                        }
+                    }
+                    
+                }
+            }
+        }
+
     }
 }

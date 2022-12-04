@@ -10,11 +10,11 @@ import Castled
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "test-99", delegate: self)
-        
+        Castled.configure(registerIn: application, launchOptions: launchOptions, instanceId: "test-1", delegate: self)
         return true
     }
     
@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let deviceToken = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
         print("APNs token \(deviceToken)")
        
-        Castled.sharedInstance?.registerDeviceTokenWith(apnsToken: deviceToken)  { (response: CastledResponse<[String : Any]>) in
+        Castled.registerDeviceTokenWith(apnsToken: deviceToken)  { (response: CastledResponse<[String : Any]>) in
             if (response.success){
                 print("Register Device token Success \(String(describing: response.result))")
             }
@@ -53,12 +53,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    func topController() -> UIViewController  {
+        if let keyWindow = UIApplication.shared.windows.first(where: { $0.isKeyWindow }), var topController = keyWindow.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+
+                topController = presentedViewController
+            }
+            return topController
+        }
+        return (UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController)!
+    }
 }
 
 
 // MARK: - CastledNotification Delegate Methods
 extension AppDelegate: CastledNotificationDelegate {
-    
+    func navigateToScreen(scheme: String?, viewControllerName: String?) {
+        print("navigate to screens")
+        if let urlScheme = scheme {
+            print(urlScheme)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: "DeeplinkViewController") as? DeeplinkViewController {
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.topController().present(nav, animated: true) {
+                    vc.lblEventType.text = "Deeplink Event"
+                }
+            }
+            return
+        }
+        
+        if let viewController = viewControllerName {
+            print(viewController)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: "DeeplinkViewController") as? DeeplinkViewController {
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.topController().present(nav, animated: true) {
+                    vc.lblEventType.text = "Navigation to screen Event"
+                }
+            }
+            return
+        }
+    }
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         //Handle the click events
         completionHandler()

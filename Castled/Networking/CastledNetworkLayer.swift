@@ -36,6 +36,15 @@ import Foundation
         request?.httpMethod = requestType.method
         return request
     }
+    
+    private func createPutRequestWithBody(url:URL, requestType: CastledNetworkRouter) -> URLRequest? {
+        request = URLRequest(url: url)
+        request?.httpMethod = CastledNetworkRouter.put
+        request?.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request?.addValue("application/json", forHTTPHeaderField: "Accept")
+        return request
+    }
+    
     private func getParameterBody(with parameters: [String:Any]) -> Data? {
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) else {
             return nil
@@ -49,6 +58,8 @@ import Foundation
             return createPostRequestWithBody(url: url,
                                              parameters: parameters,
                                              requestType: requestType)
+        } else if requestType.method == CastledNetworkRouter.put {
+            return createPutRequestWithBody(url: url, requestType: requestType)
         }
         else {
             return createGetRequestWithURLComponents(url: url,
@@ -63,57 +74,61 @@ import Foundation
             do {
                 
                 let url = URL(string: requestType.baseURL+requestType.path)!
-                //                print(url)
                 guard let urlRequest = createRequest(with: url,
                                                      requestType: requestType,parameters: requestType.parameters) else {
                     return .failure(CastledException.Error(CastledExceptionMessages.paramsMisMatch.rawValue))
                 }
-                let (data, response) = try await URLSession.shared.data(for: urlRequest)
-                do {
-                    switch requestType {
-                    case .registerUser,.registerEvents:
-                        if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
-                            
-                            return .success(["success":"1"])
-                        }
-                    default:
-                        break
-                    }
-                    
-                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        
-                        if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
-                            return .success(json)
-                        }
-                        else
-                        {
-                            if let error_message = json["message"]{
+                if #available(iOS 15.0, *) {
+                    let (data, response) = try await URLSession.shared.data(for: urlRequest)
+                    do {
+                        switch requestType {
+                        case .registerUser,.registerEvents,.triggerCampaign:
+                            if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
                                 
-                                let err =  CastledException.Error(error_message as! String)
-                                return .failure(err)
+                                return .success(["success":"1"])
                             }
-                            else{
-                                let err =  CastledException.Error(CastledExceptionMessages.common.rawValue)
-                                return .failure(err)
-                            }
+                        default:
+                            break
                         }
                         
+                        if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                            
+                            if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) {
+                                return .success(json)
+                            }
+                            else
+                            {
+                                if let error_message = json["message"]{
+                                    
+                                    let err =  CastledException.Error(error_message as! String)
+                                    return .failure(err)
+                                }
+                                else{
+                                    let err =  CastledException.Error(CastledExceptionMessages.common.rawValue)
+                                    return .failure(err)
+                                }
+                            }
+                            
+                            
+                        }
+                    } catch let error as NSError {
+                        return .failure(error)
                         
                     }
-                } catch let error as NSError {
-                    return .failure(error)
-                    
-                }
-            }
-            catch {
-
-                if retryAttempt! < retryLimit{
-                    return await  CastledNetworkLayer.shared.sendRequest(model: model, requestType: requestType,retryAttempt: retryAttempt!+1)
-
+                } else {
+                    // Fallback on earlier versions
                 }
                 
-               // return .failure(error)
-
+            }
+            catch {
+                
+                if retryAttempt! < retryLimit{
+                    return await  CastledNetworkLayer.shared.sendRequest(model: model, requestType: requestType,retryAttempt: retryAttempt!+1)
+                    
+                }
+                
+                // return .failure(error)
+                
                 return .failure(CastledException.Error(CastledExceptionMessages.common.rawValue))
             }
         }

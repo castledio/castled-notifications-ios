@@ -15,7 +15,7 @@ enum CastledExceptionMessages: String {
     case paramsMisMatch     = "Unable to create the request. Please check the params or url."
     case userNotRegistered  = "Please register the user with Castled using the api 'registerUser:'."
     case emptyEventsArray   = "Notificaion Id array cannot be empty"
-
+    case noDeviceToken      = "Register User needs a valid APNS token"
 }
 
 enum CastledException: Error {

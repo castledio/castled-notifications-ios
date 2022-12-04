@@ -15,7 +15,14 @@ import UIKit
     func castledNotificationsManager(didFailToRegisterForRemoteNotificationsWithError error: Error)
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse,withCompletionHandler completionHandler: @escaping () -> Void)
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
-    
+    func navigateToScreen(scheme: String?, viewControllerName: String?)
+}
+
+extension CastledNotificationDelegate {
+    // without the completion parameter
+    func navigateToScreen(scheme: String, viewControllerName: String) {
+        navigateToScreen(scheme: nil, viewControllerName: nil)
+    }
 }
 
 public class Castled : NSObject
@@ -82,10 +89,40 @@ public class Castled : NSObject
             }
             DispatchQueue.main.async {
                 Castled.sharedInstance!.application.registerForRemoteNotifications()
+                //self.registerNotificationCategories()
             }
         }
         
         
+    }
+    
+    public func registerNotificationCategories(userInfo: [AnyHashable : Any]) {
+        if let customDict = userInfo[CastledConstants.kCastledPushMainCustomKey] as? NSDictionary {
+            if let castledId = customDict[CastledConstants.kCastledPushNotificationIdKey] as? String{
+                print(castledId)
+                if let notification = userInfo["aps"] as? NSDictionary {
+                    if let category = notification[CastledConstants.kCastledPushNotificationCategoryKey] as? String {
+                        if let categoryJsonString = customDict[CastledConstants.kCastledPushNotificationCategoryActionsKey] as? String {
+                            
+                            if let deserializedDict = CastledCommonClass.convertToDictionary(text: categoryJsonString) {
+                                if let actionsArray = deserializedDict[CastledConstants.kCastledPushNotificationActionComponents] as? NSArray {
+                                    var actionsFinal = [UNNotificationAction]()
+                                    for actionDic in actionsArray {
+                                        if let dict = actionDic as? NSDictionary, let identifier = dict["clickAction"] as? String, let title = dict["actionId"] as? String{
+                                            let actionObject = UNNotificationAction(identifier: identifier, title: title, options: UNNotificationActionOptions.foreground)
+                                            actionsFinal.append(actionObject)
+                                        }
+                                    }
+                                    
+                                    let contentAddedCategory = UNNotificationCategory(identifier: category, actions: actionsFinal, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+                                    UNUserNotificationCenter.current().setNotificationCategories([contentAddedCategory])
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     /**
      Function that allows users to set the badge on the app icon manually.

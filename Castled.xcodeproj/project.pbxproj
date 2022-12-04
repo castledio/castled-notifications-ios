@@ -24,11 +24,23 @@
 		0AB5C5A0291C27840027C36B /* CastledAPIs+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C596291C27830027C36B /* CastledAPIs+Extensions.swift */; };
 		0AB5C5A1291C27840027C36B /* CastledNotifications+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C597291C27830027C36B /* CastledNotifications+Extensions.swift */; };
 		0AB5C5A2291C27840027C36B /* Castled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C598291C27830027C36B /* Castled.swift */; };
+		12928486292BEA0000B1F630 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12928485292BEA0000B1F630 /* NotificationService.swift */; };
+		1292848A292BEA0000B1F630 /* CastledNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 12928483292BEA0000B1F630 /* CastledNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		12928490292BF1CD00B1F630 /* CastledConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB5C592291C27830027C36B /* CastledConstants.swift */; };
+		12C876AE2938A0E80005BB52 /* CastledCommonClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C876AD2938A0E80005BB52 /* CastledCommonClass.swift */; };
+		12C876B0293D0CCB0005BB52 /* DeeplinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C876AF293D0CCB0005BB52 /* DeeplinkViewController.swift */; };
 		C9263365291CD3F800ACE169 /* Castled.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB5C550291C222C0027C36B /* Castled.framework */; };
 		C9263366291CD3F800ACE169 /* Castled.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB5C550291C222C0027C36B /* Castled.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		12928488292BEA0000B1F630 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AB5C547291C222C0027C36B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 12928482292BEA0000B1F630;
+			remoteInfo = CastledNotification;
+		};
 		C9263367291CD3F800ACE169 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0AB5C547291C222C0027C36B /* Project object */;
@@ -39,6 +51,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1292848B292BEA0000B1F630 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1292848A292BEA0000B1F630 /* CastledNotification.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9263369291CD3F800ACE169 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -74,6 +97,12 @@
 		0AB5C596291C27830027C36B /* CastledAPIs+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CastledAPIs+Extensions.swift"; sourceTree = "<group>"; };
 		0AB5C597291C27830027C36B /* CastledNotifications+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CastledNotifications+Extensions.swift"; sourceTree = "<group>"; };
 		0AB5C598291C27830027C36B /* Castled.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Castled.swift; sourceTree = "<group>"; };
+		12928483292BEA0000B1F630 /* CastledNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CastledNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		12928485292BEA0000B1F630 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		12928487292BEA0000B1F630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1292848F292BEA1500B1F630 /* CastledNotification.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CastledNotification.entitlements; sourceTree = "<group>"; };
+		12C876AD2938A0E80005BB52 /* CastledCommonClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastledCommonClass.swift; sourceTree = "<group>"; };
+		12C876AF293D0CCB0005BB52 /* DeeplinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +121,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		12928480292BEA0000B1F630 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -100,6 +136,7 @@
 			children = (
 				0AB5C552291C222C0027C36B /* Castled */,
 				0AB5C577291C25370027C36B /* CastledPusherExample */,
+				12928484292BEA0000B1F630 /* CastledNotification */,
 				0AB5C551291C222C0027C36B /* Products */,
 				C9263364291CD3F800ACE169 /* Frameworks */,
 			);
@@ -110,6 +147,7 @@
 			children = (
 				0AB5C550291C222C0027C36B /* Castled.framework */,
 				0AB5C576291C25370027C36B /* CastledPusherExample.app */,
+				12928483292BEA0000B1F630 /* CastledNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,6 +172,7 @@
 				0AB5C578291C25370027C36B /* AppDelegate.swift */,
 				0AB5C57A291C25370027C36B /* SceneDelegate.swift */,
 				0AB5C57C291C25370027C36B /* ViewController.swift */,
+				12C876AF293D0CCB0005BB52 /* DeeplinkViewController.swift */,
 				0AB5C57E291C25370027C36B /* Main.storyboard */,
 				0AB5C581291C25370027C36B /* Assets.xcassets */,
 				0AB5C583291C25370027C36B /* LaunchScreen.storyboard */,
@@ -173,10 +212,21 @@
 		0AB5C595291C27830027C36B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				12C876AD2938A0E80005BB52 /* CastledCommonClass.swift */,
 				0AB5C596291C27830027C36B /* CastledAPIs+Extensions.swift */,
 				0AB5C597291C27830027C36B /* CastledNotifications+Extensions.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		12928484292BEA0000B1F630 /* CastledNotification */ = {
+			isa = PBXGroup;
+			children = (
+				1292848F292BEA1500B1F630 /* CastledNotification.entitlements */,
+				12928485292BEA0000B1F630 /* NotificationService.swift */,
+				12928487292BEA0000B1F630 /* Info.plist */,
+			);
+			path = CastledNotification;
 			sourceTree = "<group>";
 		};
 		C9263364291CD3F800ACE169 /* Frameworks */ = {
@@ -226,16 +276,35 @@
 				0AB5C573291C25370027C36B /* Frameworks */,
 				0AB5C574291C25370027C36B /* Resources */,
 				C9263369291CD3F800ACE169 /* Embed Frameworks */,
+				1292848B292BEA0000B1F630 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C9263368291CD3F800ACE169 /* PBXTargetDependency */,
+				12928489292BEA0000B1F630 /* PBXTargetDependency */,
 			);
 			name = CastledPusherExample;
 			productName = CastledPusherExample;
 			productReference = 0AB5C576291C25370027C36B /* CastledPusherExample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		12928482292BEA0000B1F630 /* CastledNotification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1292848E292BEA0000B1F630 /* Build configuration list for PBXNativeTarget "CastledNotification" */;
+			buildPhases = (
+				1292847F292BEA0000B1F630 /* Sources */,
+				12928480292BEA0000B1F630 /* Frameworks */,
+				12928481292BEA0000B1F630 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CastledNotification;
+			productName = CastledNotification;
+			productReference = 12928483292BEA0000B1F630 /* CastledNotification.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -252,6 +321,9 @@
 					};
 					0AB5C575291C25370027C36B = {
 						CreatedOnToolsVersion = 14.0.1;
+					};
+					12928482292BEA0000B1F630 = {
+						CreatedOnToolsVersion = 14.0;
 					};
 				};
 			};
@@ -270,6 +342,7 @@
 			targets = (
 				0AB5C54F291C222C0027C36B /* Castled */,
 				0AB5C575291C25370027C36B /* CastledPusherExample */,
+				12928482292BEA0000B1F630 /* CastledNotification */,
 			);
 		};
 /* End PBXProject section */
@@ -292,6 +365,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		12928481292BEA0000B1F630 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -306,6 +386,7 @@
 				0AB5C5A2291C27840027C36B /* Castled.swift in Sources */,
 				0AB5C59C291C27840027C36B /* CastledNetworkLayer.swift in Sources */,
 				0AB5C59D291C27840027C36B /* CastledUserDefaults.swift in Sources */,
+				12C876AE2938A0E80005BB52 /* CastledCommonClass.swift in Sources */,
 				0AB5C59F291C27840027C36B /* CastledSwizzler.swift in Sources */,
 				0AB5C5A1291C27840027C36B /* CastledNotifications+Extensions.swift in Sources */,
 				0AB5C5A0291C27840027C36B /* CastledAPIs+Extensions.swift in Sources */,
@@ -318,13 +399,28 @@
 			files = (
 				0AB5C57D291C25370027C36B /* ViewController.swift in Sources */,
 				0AB5C579291C25370027C36B /* AppDelegate.swift in Sources */,
+				12C876B0293D0CCB0005BB52 /* DeeplinkViewController.swift in Sources */,
 				0AB5C57B291C25370027C36B /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1292847F292BEA0000B1F630 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12928490292BF1CD00B1F630 /* CastledConstants.swift in Sources */,
+				12928486292BEA0000B1F630 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		12928489292BEA0000B1F630 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 12928482292BEA0000B1F630 /* CastledNotification */;
+			targetProxy = 12928488292BEA0000B1F630 /* PBXContainerItemProxy */;
+		};
 		C9263368291CD3F800ACE169 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0AB5C54F291C222C0027C36B /* Castled */;
@@ -485,6 +581,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -513,6 +610,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -531,6 +629,7 @@
 		0AB5C588291C25370027C36B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CastledPusherExample/CastledPusherExample.entitlements;
@@ -544,6 +643,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -560,6 +660,7 @@
 		0AB5C589291C25370027C36B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CastledPusherExample/CastledPusherExample.entitlements;
@@ -573,6 +674,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -580,6 +682,60 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.castled.pusherswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1292848C292BEA0000B1F630 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CastledNotification/CastledNotification.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MS7X7622VQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CastledNotification/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CastledNotification;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.castled.pusherswift.CastledNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1292848D292BEA0000B1F630 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = CastledNotification/CastledNotification.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MS7X7622VQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CastledNotification/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CastledNotification;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.castled.pusherswift.CastledNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -612,6 +768,15 @@
 			buildConfigurations = (
 				0AB5C588291C25370027C36B /* Debug */,
 				0AB5C589291C25370027C36B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1292848E292BEA0000B1F630 /* Build configuration list for PBXNativeTarget "CastledNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1292848C292BEA0000B1F630 /* Debug */,
+				1292848D292BEA0000B1F630 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
